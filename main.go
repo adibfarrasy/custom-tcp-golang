@@ -33,7 +33,7 @@ func (s *Server) Start() error {
 	defer ln.Close()
 	s.ln = ln
 
-	go s.acceptLoop()
+	go s.acceptLoop() // launch a thread to accept multiple connections
 
 	<-s.quitch // blocking until it consumes from quitch
 	close(s.msgch)
@@ -50,7 +50,7 @@ func (s *Server) acceptLoop() {
 		}
 
 		fmt.Println("new connection to the server: ", conn.RemoteAddr())
-		s.readLoop(conn) // launch a thread to accept multiple connections
+		s.readLoop(conn)
 	}
 }
 
